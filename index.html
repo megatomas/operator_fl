@@ -119,41 +119,50 @@ document.addEventListener("DOMContentLoaded", function () {
   let tg = window.Telegram.WebApp;
 
   // Получение кнопки отправки формы
-let submitButton = document.getElementById("submit");
+  let submitButton = document.getElementById("submit");
+  let form = document.querySelector("form"); // Добавьте селектор вашей формы, если у нее нет id
 
-  submitButton.addEventListener("click", function () {
-    // Собираем данные из полей формы
-    let data = {
-      f_fl: document.getElementById("f_fl").value,
-      i_fl: document.getElementById("i_fl").value,
-      o_fl: document.getElementById("o_fl").value,
-      city_fl: document.getElementById("city_fl").value,
-      street_fl: document.getElementById("street_fl").value,
-      house_fl: document.getElementById("house_fl").value,
-      room_fl: document.getElementById("room_fl").value,
-      post_index_fl: document.getElementById("post_index_fl").value,
-      phone_fl: document.getElementById("phone_fl").value,
-      email_fl: document.getElementById("email_fl").value,
-      pasport_serial_fl: document.getElementById("pasport_serial_fl").value,
-      pasport_number_fl: document.getElementById("pasport_number_fl").value,
-      pasport_vudan_fl: document.getElementById("pasport_vudan_fl").value,
-      pasport_vudan_data_fl: document.getElementById("pasport_vudan_data_fl").value,
+  submitButton.addEventListener("click", function (event) {
+    event.preventDefault(); // Предотвратите стандартное поведение формы
 
-      inn_fl: document.getElementById("inn_fl").value,
-      snils_fl: document.getElementById("snils_fl").value,
-      bank_fl: document.getElementById("bank_fl").value,
-      rs_fl: document.getElementById("rs_fl").value,
-      ks_fl: document.getElementById("ks_fl").value,
-      bik_fl: document.getElementById("bik_fl").value,
-    };
+    // Проверяем, валидна ли форма
+    if (form.checkValidity()) {
+      // Собираем данные из полей формы
+      let data = {
+        f_fl: document.getElementById("f_fl").value,
+        i_fl: document.getElementById("i_fl").value,
+        o_fl: document.getElementById("o_fl").value,
+        city_fl: document.getElementById("city_fl").value,
+        street_fl: document.getElementById("street_fl").value,
+        house_fl: document.getElementById("house_fl").value,
+        room_fl: document.getElementById("room_fl").value,
+        post_index_fl: document.getElementById("post_index_fl").value,
+        phone_fl: document.getElementById("phone_fl").value,
+        email_fl: document.getElementById("email_fl").value,
+        pasport_serial_fl: document.getElementById("pasport_serial_fl").value,
+        pasport_number_fl: document.getElementById("pasport_number_fl").value,
+        pasport_vudan_fl: document.getElementById("pasport_vudan_fl").value,
+        pasport_vudan_data_fl: document.getElementById("pasport_vudan_data_fl").value,
+        inn_fl: document.getElementById("inn_fl").value,
+        snils_fl: document.getElementById("snils_fl").value,
+        bank_fl: document.getElementById("bank_fl").value,
+        rs_fl: document.getElementById("rs_fl").value,
+        ks_fl: document.getElementById("ks_fl").value,
+        bik_fl: document.getElementById("bik_fl").value,
+      };
 
-    // Отправляем данные в телеграм-бота
-    tg.sendData(JSON.stringify(data));
+      // Отправляем данные в телеграм-бота
+      tg.sendData(JSON.stringify(data));
 
-    // Закрываем окно
-    tg.close();
+      // Закрываем окно
+      tg.close();
+    } else {
+      // Если форма невалидна, показываем ошибки
+      form.reportValidity();
+    }
   });
 });
+
 </script>
 
 
