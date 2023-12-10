@@ -18,7 +18,7 @@
 <body>
 <form data-content-type="web_app_data" enctype="multipart/form-data">
 
-        <label for="f_fl">Фамилия:</label>
+        <label for="f_fl">!Фамилия:</label>
         <input type="text" id="f_fl" name="f_fl" required pattern="[а-яА-ЯёЁa-zA-Z]+" placeholder="Введите фамилию">
         <br>
 
@@ -106,6 +106,10 @@
         <button type="button" id="cancel-button">Отмена</button>
 
     </form>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   let tg = window.Telegram.WebApp;
