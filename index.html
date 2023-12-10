@@ -18,7 +18,7 @@
 <body>
 <form data-content-type="web_app_data" enctype="multipart/form-data">
 
-        <label for="f_fl">Фамилия:</label>
+        <label for="f_fl">!Фамилия:</label>
         <input type="text" id="f_fl" name="f_fl" required pattern="[а-яА-ЯёЁa-zA-Z]+" placeholder="Введите фамилию">
         <br>
 
@@ -119,13 +119,9 @@ document.addEventListener("DOMContentLoaded", function () {
   let tg = window.Telegram.WebApp;
 
   // Получение кнопки отправки формы
-  let submitButton = document.getElementById("submit");
-  let dataForm = document.getElementById("data-form");
+let submitButton = document.getElementById("submit");
 
-  submitButton.addEventListener("click", function (e) {
-    // Предотвращаем отправку формы по умолчанию
-    e.preventDefault();
-
+  submitButton.addEventListener("click", function () {
     // Собираем данные из полей формы
     let data = {
       f_fl: document.getElementById("f_fl").value,
@@ -142,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
       pasport_number_fl: document.getElementById("pasport_number_fl").value,
       pasport_vudan_fl: document.getElementById("pasport_vudan_fl").value,
       pasport_vudan_data_fl: document.getElementById("pasport_vudan_data_fl").value,
+
       inn_fl: document.getElementById("inn_fl").value,
       snils_fl: document.getElementById("snils_fl").value,
       bank_fl: document.getElementById("bank_fl").value,
@@ -150,125 +147,13 @@ document.addEventListener("DOMContentLoaded", function () {
       bik_fl: document.getElementById("bik_fl").value,
     };
 
-    // Вызываем функцию для проверки правильности данных
-    let isValid = validateFormData(data);
+    // Отправляем данные в телеграм-бота
+    tg.sendData(JSON.stringify(data));
 
-    if (isValid) {
-      // Если данные корректны, отправляем их в телеграм-бота
-      tg.sendData(JSON.stringify(data));
-      // Закрываем окно
-      tg.close();
-    }
+    // Закрываем окно
+    tg.close();
   });
 });
-
-function validateFormData(data) {
-  let isValid = true;
-
-  // Проверка фамилии
-  if (data.f_fl.trim() === "" || !/^[а-яА-ЯёЁa-zA-Z]+$/.test(data.f_fl)) {
-    alert("Пожалуйста, введите корректную фамилию.");
-    isValid = false;
-  }
-
-  // Проверка имени
-  if (data.i_fl.trim() === "" || !/^[а-яА-ЯёЁa-zA-Z]+$/.test(data.i_fl)) {
-    alert("Пожалуйста, введите корректное имя.");
-    isValid = false;
-  }
-
-  // Проверка отчества
-  if (data.o_fl.trim() === "" || !/^[а-яА-ЯёЁa-zA-Z]+$/.test(data.o_fl)) {
-    alert("Пожалуйста, введите корректное отчество.");
-    isValid = false;
-  }
-
-  // Проверка города
-  if (data.city_fl.trim() === "" || !/^[а-яА-ЯёЁa-zA-Z]+$/.test(data.city_fl)) {
-    alert("Пожалуйста, введите корректный город.");
-    isValid = false;
-  }
-
-  // Проверка улицы
-  if (data.street_fl.trim() === "") {
-    alert("Пожалуйста, введите улицу.");
-    isValid = false;
-  }
-
-  // Проверка номера дома
-  if (data.house_fl.trim() === "" || !/^[0-9а-яА-Яa-zA-Z]+$/.test(data.house_fl)) {
-    alert("Пожалуйста, введите корректный номер дома.");
-    isValid = false;
-  }
-
-  // Проверка номера квартиры
-  if (!/^[0-9]+$/.test(data.room_fl)) {
-    alert("Пожалуйста, введите корректный номер квартиры.");
-    isValid = false;
-  }
-
-  // Проверка почтового индекса
-  if (!/^[0-9]{6}$/.test(data.post_index_fl)) {
-    alert("Пожалуйста, введите корректный почтовый индекс.");
-    isValid = false;
-  }
-
-  // Проверка телефона
-  if (!/^\+7[0-9]{10}$/.test(data.phone_fl)) {
-    alert("Пожалуйста, введите корректный номер телефона.");
-    isValid = false;
-  }
-
-  // Проверка email
-  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(data.email_fl)) {
-    alert("Пожалуйста, введите корректный email.");
-    isValid = false;
-  }
-
-  // Проверка серии паспорта
-  if (!/^[0-9]{4}$/.test(data.pasport_serial_fl)) {
-    alert("Пожалуйста, введите корректную серию паспорта.");
-    isValid = false;
-  }
-
-  // Проверка номера паспорта
-  if (!/^[0-9]{6}$/.test(data.pasport_number_fl)) {
-    alert("Пожалуйста, введите корректный номер паспорта.");
-    isValid = false;
-  }
-
-  // Проверка кем выдан
-if (data.pasport_vudan_fl.trim() === "") {
-  alert("Пожалуйста, укажите, кем был выдан паспорт.");
-  isValid = false;
-}
-
-// Проверка даты выдачи паспорта
-if (data.pasport_vudan_data_fl.trim() === "" || !/^\d{2}\.\d{2}\.\d{4}$/.test(data.pasport_vudan_data_fl)) {
-  alert("Пожалуйста, введите корректную дату выдачи паспорта в формате дд.мм.гггг.");
-  isValid = false;
-}
-
-  // Проверка ИНН
-  if (!/^[0-9]{12}$/.test(data.inn_fl)) {
-    alert("Пожалуйста, введите корректный ИНН.");
-    isValid = false;
-  }
-
-  // Проверка СНИЛС
-  if (!/^[0-9]{3}-[0-9]{3}-[0-9]{3} [0-9]{2}$/.test(data.snils_fl)) {
-    alert("Пожалуйста, введите корректный СНИЛС.");
-    isValid = false;
-  }
-
-  // Проверка названия банка
-  if (data.bank_fl.trim() === "" || !/^[0-9а-яА-Яa-zA-Z]+$/.test(data.bank_fl)) {
-    alert("Пожалуйста, введите корректное название банка.");
-    isValid = false;
-
-  return isValid;
-}
-
 </script>
 
 
