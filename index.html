@@ -16,7 +16,8 @@
 <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet"/>
 </head>
 <body>
-    <form>
+<form data-content-type="web_app_data" enctype="multipart/form-data">
+
         <label for="f_fl">Фамилия:</label>
         <input type="text" id="f_fl" name="f_fl" required pattern="[а-яА-ЯёЁa-zA-Z]+" placeholder="Введите фамилию">
         <br>
@@ -101,120 +102,36 @@
 
 
 
-        <input type="submit" value="Отправить">
+        <button id="submit" type="submit">Создать заявку</button>
+        <button type="button" id="cancel-button">Отмена</button>
+
     </form>
 
-
 <script>
-function restrictInput(inputElement, pattern, format) {
-  inputElement.addEventListener("input", function () {
-    var inputValue = this.value;
+document.addEventListener("DOMContentLoaded", function () {
+  let tg = window.Telegram.WebApp;
 
-    // Применяем регулярное выражение для ограничения ввода
-    var cleanedValue = inputValue.replace(pattern, '');
+  // Получение кнопки отправки формы
+let submitButton = document.getElementById("submit");
 
-    // Форматируем значение согласно заданному формату
-    var formattedValue = format(cleanedValue);
+  submitButton.addEventListener("click", function () {
+    // Собираем данные из полей формы
+    let data = {
+      f_fl: document.getElementById("f_fl").value,
+      i_fl: document.getElementById("i_fl").value,
+      o_fl: document.getElementById("o_fl").value,
+      city_fl: document.getElementById("city_fl").value,
+      // Другие поля формы
+    };
 
-    this.value = formattedValue;
+    // Отправляем данные в телеграм-бота
+    tg.sendData(JSON.stringify(data));
+
+    // Закрываем окно
+    tg.close();
   });
-}
-
-// Форматирование ИНН (ограничение в 12 символов)
-restrictInput(document.getElementById("inn_fl"), /[^\d]/g, function (cleanedValue) {
-  return cleanedValue.slice(0, 12);
 });
-
-// Форматирование СНИЛС (добавление дефисов)
-restrictInput(document.getElementById("snils_fl"), /[^\d]/g, function (cleanedValue) {
-  var value = cleanedValue.slice(0, 11);
-  return value.slice(0, 3) + "-" + value.slice(3, 6) + "-" + value.slice(6, 9) + " " + value.slice(9, 11);
-});
-
-// Форматирование почтового индекса (ограничение в 6 символов)
-restrictInput(document.getElementById("post_index_fl"), /[^\d]/g, function (cleanedValue) {
-  return cleanedValue.slice(0, 6);
-});
-
-
-// Форматирование номера квартиры (оставляем буквы и цифры)
-restrictInput(document.getElementById("room_fl"), /[^a-zA-Z\d]/g, function (cleanedValue) {
-  return cleanedValue;
-});
-
-// Форматирование телефона (добавление "+7" и ограничение в 12 символов)
-restrictInput(document.getElementById("phone_fl"), /[^\d\+]/g, function (cleanedValue) {
-  if (!cleanedValue.startsWith("+7")) {
-    cleanedValue = "+7" + cleanedValue;
-  }
-  return cleanedValue.slice(0, 12);
-});
-
-// Форматирование серии паспорта (ограничение в 4 символа)
-restrictInput(document.getElementById("pasport_serial_fl"), /[^\d]/g, function (cleanedValue) {
-  return cleanedValue.slice(0, 4);
-});
-
-// Форматирование номера паспорта (ограничение в 6 символов)
-restrictInput(document.getElementById("pasport_number_fl"), /[^\d]/g, function (cleanedValue) {
-  return cleanedValue.slice(0, 6);
-});
-
-// Форматирование расчетного счета (добавление "408" и ограничение в 20 символов)
-restrictInput(document.getElementById("rs_fl"), /[^\d]/g, function (cleanedValue) {
-  if (!cleanedValue.startsWith("408")) {
-    cleanedValue = "408" + cleanedValue;
-  }
-  return cleanedValue.slice(0, 20);
-});
-
-// Форматирование корреспондентского счета (добавление "30101" и ограничение в 20 символов)
-restrictInput(document.getElementById("ks_fl"), /[^\d]/g, function (cleanedValue) {
-  if (!cleanedValue.startsWith("30101")) {
-    cleanedValue = "30101" + cleanedValue;
-  }
-  return cleanedValue.slice(0, 20);
-});
-
-// Форматирование БИК (добавление "04" и ограничение в 9 символов)
-restrictInput(document.getElementById("bik_fl"), /[^\d]/g, function (cleanedValue) {
-  if (!cleanedValue.startsWith("04")) {
-    cleanedValue = "04" + cleanedValue;
-  }
-  return cleanedValue.slice(0, 9);
-});
-
-// Форматирование даты (добавление точек и ограничение в "дд.мм.гггг")
-restrictInput(document.getElementById("date_fl"), /[^\d]/g, function (cleanedValue) {
-  cleanedValue = cleanedValue.slice(0, 8);
-  if (cleanedValue.length >= 2) {
-    cleanedValue = cleanedValue.slice(0, 2) + '.' + cleanedValue.slice(2);
-  }
-  if (cleanedValue.length >= 5) {
-    cleanedValue = cleanedValue.slice(0, 5) + '.' + cleanedValue.slice(5);
-  }
-  return cleanedValue;
-});
-
-
-
-var emailInput = document.getElementById("email_fl");
-
-emailInput.addEventListener("input", function () {
-  var inputValue = this.value;
-
-  // Проверяем, содержит ли введенное значение русские буквы
-  var hasRussianLetters = /[а-яА-ЯёЁ]/.test(inputValue);
-
-  if (hasRussianLetters) {
-    // Если есть русские буквы, очищаем поле
-    this.value = this.value.replace(/[а-яА-ЯёЁ]/g, '');
-  }
-});
-
 </script>
-
-
 
 </body>
 </html>
