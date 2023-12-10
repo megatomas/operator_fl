@@ -69,6 +69,10 @@
         <label for="pasport_number_fl">Номер паспорта:</label>
         <input type="text" id="pasport_number_fl" name="pasport_number_fl" required pattern="[0-9]{6}" placeholder="6 цифр">
         <br>
+        
+        <label for="pasport_vudan_fl">Номер паспорта:</label>
+        <input type="text" id="pasport_vudan_fl" name="pasport_vudan_fl" placeholder="Кем выдан?">
+        <br>
 
         <label for="date_fl">Дата выдачи паспорта (дд.мм.гггг):</label>
         <input type="text" id="date_fl" name="date_fl" placeholder="Введите дату в формате дд.мм.гггг">
@@ -132,6 +136,8 @@ let submitButton = document.getElementById("submit");
       email_fl: document.getElementById("email_fl").value,
       pasport_serial_fl: document.getElementById("pasport_serial_fl").value,
       pasport_number_fl: document.getElementById("pasport_number_fl").value,
+      pasport_vudan_fl: document.getElementById("pasport_vudan_fl").value,
+      
       date_fl: document.getElementById("date_fl").value,
       inn_fl: document.getElementById("inn_fl").value,
       snils_fl: document.getElementById("snils_fl").value,
